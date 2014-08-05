@@ -1,25 +1,21 @@
 
-import org.la4j.factory.CRSFactory;
-import org.la4j.matrix.Matrix;
-import org.la4j.matrix.sparse.CRSMatrix;
-import org.la4j.matrix.sparse.SparseMatrix;
+import org.ejml.simple.SimpleMatrix;
 
 public class NetworkMatrix
 {
-	SparseMatrix m;
+	SimpleMatrix m;
 	int n;
 	public NetworkMatrix(int size)
 	{
-		CRSFactory cr = new CRSFactory();
-		this.m = new CRSMatrix(cr.createSquareMatrix(size));
+		this.m = new SimpleMatrix(size, size);
 		this.n = size;
 	}
 	
-	public NetworkMatrix(Matrix m)
+	public NetworkMatrix(SimpleMatrix m)
 	{
-		this.m=new CRSMatrix(m);
+		this.m=m;
 		//assumes square
-		this.n=m.rows();
+		this.n=m.numRows();
 	}
 	
 	
@@ -33,7 +29,7 @@ public class NetworkMatrix
 		return m.get(row-1, col-1);
 	}
 	
-	public Matrix getMatrix()
+	public SimpleMatrix getMatrix()
 	{
 		return this.m;
 	}

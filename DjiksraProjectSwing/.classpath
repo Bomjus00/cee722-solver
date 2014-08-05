@@ -4,8 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/la4j/lib/la4j-0.4.9.jar" sourcepath="/la4j/lib/la4j-0.4.9.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/la4j"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Batik"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/EJML"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JavaFX"/>

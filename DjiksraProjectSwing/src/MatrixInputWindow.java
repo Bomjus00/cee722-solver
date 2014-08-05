@@ -14,7 +14,7 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import org.la4j.matrix.sparse.CRSMatrix;
+import org.ejml.simple.SimpleMatrix;
 
 
 public class MatrixInputWindow
@@ -128,7 +128,7 @@ public class MatrixInputWindow
 					}
 				}
 			}
-			a=new NetworkMatrix(new CRSMatrix(mValues));
+			a=new NetworkMatrix(new SimpleMatrix(mValues));
 			s.close();
 			
 		}

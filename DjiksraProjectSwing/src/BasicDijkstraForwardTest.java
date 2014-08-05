@@ -1,8 +1,7 @@
 import junit.framework.TestCase;
 
+import org.ejml.simple.SimpleMatrix;
 import org.junit.Test;
-import org.la4j.matrix.Matrix;
-import org.la4j.matrix.dense.Basic2DMatrix;
 
 
 public class BasicDijkstraForwardTest extends TestCase
@@ -45,7 +44,7 @@ public class BasicDijkstraForwardTest extends TestCase
 	public void testHW()
 	{
 		// A simple 2D array matrix
-		Matrix a = new Basic2DMatrix(new double[][]{
+		SimpleMatrix a = new SimpleMatrix(new double[][]{
 		  {0, 25.0, 35.0, 0.0, 0.0 },
 		  {0.0, 0.0, 0.0, 15.0, 0.0 },
 		  {20.0, 45.0, 0.0, 0.0, 0.0 },

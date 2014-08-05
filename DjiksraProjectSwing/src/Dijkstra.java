@@ -1,5 +1,6 @@
 
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -22,12 +23,15 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker.StateValue;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
-import org.la4j.matrix.dense.Basic2DMatrix;
+import org.ejml.simple.SimpleMatrix;
 
 
 public class Dijkstra
@@ -41,8 +45,6 @@ public class Dijkstra
 	int target;
 	int source;
 	static NetworkMatrix nm;
-	Map<Integer, List<Double>> doubleArray;
-	static double[][] inputArray;
 	static int nSize;
 	
 //	private final class MatrixFileChooseEventHandler implements
@@ -197,6 +199,7 @@ public class Dijkstra
 	
 	public static void main(String[] args) 
 	{
+		// Set Motif L&F on any platform
 		 SwingUtilities.invokeLater(new Runnable() 
 		 {
 
@@ -210,12 +213,22 @@ public class Dijkstra
 	
 	private static void initGUI()
 	{
-		
+		try
+		{
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
         frame = new JFrame();
         final JFXPanel fxPanel = new JFXPanel();
         JToolBar b = buildToolBar();
-        frame.add(b);
-        frame.add(fxPanel);
+        JPanel panel = new JPanel();
+        frame.add(panel) ;
+        panel.add(b);
+        panel.add(fxPanel);
         frame.setTitle("Dijkstra Shortest Path Tutorial");
         frame.setSize(600, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -238,7 +251,9 @@ public class Dijkstra
 		JToolBar toolBar = new JToolBar(JToolBar.HORIZONTAL);
 		JLabel rowSizeLabel = new JLabel("Square Matrix Size:");
 	    JTextField rowSize = new JTextField();
-//		JButton sizeSetButton = new JButton("Set Size");
+	    rowSize.setPreferredSize(new Dimension(5,5));
+		JButton sizeSetButton = new JButton("Set Size");
+		toolBar.setFloatable(false);
 //		SetMatrixEventHandler smeh = new SetMatrixEventHandler();
 //		sizeSetButton.addActionListener(smeh);
 		JButton pickMatrixButton = new JButton("Pick Matrix");
@@ -247,7 +262,7 @@ public class Dijkstra
 			@Override
 			public void actionPerformed(ActionEvent event)
 			{
-				Map<Integer, List<Double>> doubleArray = new LinkedHashMap<>(); 
+
 				JFileChooser chooser = new JFileChooser();
 				chooser.setDialogTitle("Choose a csv file for the matrix");
 				String path = new File("").getAbsolutePath();
@@ -261,41 +276,45 @@ public class Dijkstra
 					{
 						if (file != null)
 						{
-							Scanner in = new Scanner(file);
-							in.useDelimiter(",");
-							int lines = 0;
-							while(in.hasNext())
-							{
-								lines++;
-								List<Double> doubles = new ArrayList<>();
-								//System.out.print(in.next()+"|"); 
-								doubles.add(in.nextDouble());
-								doubleArray.put(lines, doubles);
-								
-							}
-							in.close();
-							System.out.println(doubleArray);
+							nm = new NetworkMatrix(SimpleMatrix.loadCSV(file.getPath()));
+//							Scanner in = new Scanner(file);
+//							in.useDelimiter(",");
+//							while(in.hasNextLine())
+//							{
+//								List<Double> l = new ArrayList<>();
+//								while(in.hasNextDouble())
+//								{
+//									l.add(in.nextDouble());
+//								}
+//								inArray.add(l);
+//								in.nextLine();
+//							}
+//							
+//							in.close();
+//							nSize = inArray.size(); //counts number of arrays since square
+//							double[][] valMatrix = new double[nSize][nSize];
+//							for(int i=0; i < inArray.size(); i++)
+//							{
+//								for(int j=0; j < inArray.size(); j++)
+//								{
+//									valMatrix[i][j] = inArray.get(i).get(j).doubleValue();
+//								}
+//							}
+//							System.out.println(inArray);
+//							System.out.println(valMatrix);
+//							nm = new NetworkMatrix(new SimpleMatrix(valMatrix));
+//							System.out.println(doubleArray);
 						}
 					} catch (IOException ex)
 					{
 						System.out.println(); // no file read.k
 					}
 				}
-				for(Integer i: doubleArray.keySet())
-				{
-					int c = 0;
-					for(double d: doubleArray.get(i))
-					{
-						inputArray[i][c] = d;
-						c++;
-					}
-
-				}
-				nm = new NetworkMatrix(new Basic2DMatrix(inputArray));
 			}
 		});
 		//add labels and buttons to the toolbar
 		toolBar.add(rowSizeLabel);
+		toolBar.add(rowSize);
 //		toolBar.add(sizeSetButton);
 		toolBar.add(pickMatrixButton);
 		return toolBar;
