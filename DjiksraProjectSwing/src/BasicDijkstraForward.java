@@ -19,7 +19,7 @@ public class BasicDijkstraForward
 	private Integer source;
 	private int N;
 
-	public BasicDijkstraForward(int target, int source, NetworkMatrix sc)
+	public BasicDijkstraForward(int source, int target, NetworkMatrix sc)
 	{
 		this.s_f = new LinkedHashSet<>();
 		this.s_prime_f = new LinkedHashSet<>();
@@ -88,41 +88,49 @@ public class BasicDijkstraForward
 		{	
 			for(int j=1; j<N+1; j++)
 			{
-				String s = "Node " + i + " is connected to ";
+				
 				double d = this.staticCost.getStaticCost(i, j);
-			    if(d > 0 && this.connectedNodes.get(i) == null)
+				String s = "Node " + i + " is " + d + " to ";
+				if(i==j && d > 0)
+				{
+					System.out.println("Throwing out " + d + 
+							" for Node " + i + " as Nodes cannot be connected to themselves");
+				}
+				else if(d > 0 && this.connectedNodes.get(i) == null)
 			    {
 			    	Set<Integer> l = new LinkedHashSet<>();
 			    	l.add(j);
 			    	this.connectedNodes.put(i,l);
-			    	s = s + j;
+			    	System.out.println(s + j);
 			    }
 			    else if(d > 0)
 			    {
-			    	this.connectedNodes.get(i).add(j);
-			    	s = s + ", "+j; 
+			    	Set<Integer> cn = this.connectedNodes.get(i);
+			    	cn.add(j);
+			    	System.out.println(s + j); 
 			    }
-			    
 			}
 		}
 		
 
-		System.out.println("Initializing s'...");
+		System.out.println("Initializing s'");
 		//Add all nodes to s_f
 		this.s_prime_f.addAll(this.connectedNodes.keySet());
 		
 		//Move source node to s_f, indicating origin 
+		int sourceToMove = 0;
 		for(Integer i: this.s_prime_f)
 		{
 			if(i.intValue() == this.source.intValue())
 			{
 				System.out.println("Node " + this.source + " is the source node");
-				this.s_prime_f.remove(this.source);
+				sourceToMove = this.source;
 				this.s_f.add(this.source);
 				System.out.println("Setting d to 0 for source Node " + i);
 				this.d.set(this.source-1,0.0);
 			}
 		}
+		this.s_prime_f.remove(sourceToMove);
 		
 		while (!s_prime_f.isEmpty())
 		{

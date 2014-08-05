@@ -14,33 +14,6 @@ public class BasicDijkstraForwardTest extends TestCase
 	}
 	
 	@Test
-	public void test2()
-	{
-		NetworkMatrix nm = new NetworkMatrix(2);
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void test()
-	{
-		NetworkMatrix nm = new NetworkMatrix(3);
-		fail("Not yet implemented");
-	}
-	@Test
-	public void test4()
-	{
-		NetworkMatrix nm = new NetworkMatrix(4);
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void test5()
-	{
-		NetworkMatrix nm = new NetworkMatrix(5);
-		fail("Not yet implemented");
-	}
-	
-	@Test
 	public void testHW()
 	{
 		// A simple 2D array matrix
@@ -52,7 +25,7 @@ public class BasicDijkstraForwardTest extends TestCase
 		  {0.0, 0.0, 25.0, 35.0, 0.0}
 		});
 		NetworkMatrix nm = new NetworkMatrix(a);
-		BasicDijkstraForward bdf = new BasicDijkstraForward(1,5,nm);
+		BasicDijkstraForward bdf = new BasicDijkstraForward(5,1,nm);
 		bdf.getD();
 		System.out.println("D array is: " + bdf.getD());
 		bdf.getPredec();
